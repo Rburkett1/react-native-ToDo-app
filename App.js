@@ -30,7 +30,7 @@ function resetTasks(){
 }
 
 function emptyTask(){
-  if(task = [" "]){
+  if(task = []){
     alert("must add task first")
   }
 }
@@ -84,36 +84,26 @@ let renderItem = ({ item }) => {
       <View>
         {taskList.map((item, index) => {
           return (
-          <View style={styles.taskWrapper} >
-              <Text key={index}>                      
-                <Task text = {item} />                                                      
-             </Text>
-             <CheckBox 
-              checked={checked} 
-             onPress = {toggleCheckBox}
-             iconType="material-community"
-             checkedIcon="checkbox-outline"
-             uncheckedIcon={'checkbox-blank-outline'} 
-             key={item}/>  
+            <View style={styles.taskitem}>
+              <View style={styles.taskWrapper} >
+                <Text key={index}>                      
+                  <Task text = {item} />                                                      
+                </Text>
+                <CheckBox 
+                checked={checked} 
+                onPress = {toggleCheckBox}
+                iconType="material-community"
+                checkedIcon="checkbox-outline"
+                uncheckedIcon={'checkbox-blank-outline'} 
+                key={item}/>  
+            </View>
           </View>
           );
-        })}
-        
+        })}     
     </View>  
     
-    <FlatList 
-      data={data} 
-      renderItem={renderItem}>
-        
-      </FlatList>
-    
+    <FlatList data={data} renderItem={renderItem}></FlatList>   
    <View>
-   <CheckBox 
-    checked={checked} 
-    onPress = {toggleCheckBox}
-    iconType="material-community"
-    checkedIcon="checkbox-outline"
-    uncheckedIcon={'checkbox-blank-outline'} />
    </View>
   </View>
   
@@ -123,7 +113,7 @@ let renderItem = ({ item }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'lightgray',
+    backgroundColor: 'darkgray',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 80
@@ -131,15 +121,17 @@ const styles = StyleSheet.create({
   input: {
     paddingVertical: 15,
     paddingHorizontal: 15,
-    backgroundColor: 'white',
+    backgroundColor: 'lightgray',
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 10,
     width: 250,
   },
   taskitem: {
-    backgroundColor: 'red',
+    backgroundColor: 'lightgray',
     padding: 10,
+    borderWidth: 2,
+    width: 250,
     
   },
   taskWrapper: {
