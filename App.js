@@ -72,14 +72,13 @@ let renderItem = ({ item }) => {
 
   return (
     <View style={styles.container}>
-      {/* Refrence code */}
       <Text>Todo List</Text>
       
        {/* Start of ToDo code */}
        {/* add onChangeText to input... */}
       <TextInput style={styles.input} placeholder='add new task..' value={task} onChangeText = {text => setTask(text)}/>
      <Button title='add task' onPress={() => handleAddTasks() }/>
-     <Button title= 'clear tasks' onPress={() => resetTasks()}/>
+     
      
       <View>
         {taskList.map((item, index) => {
@@ -132,7 +131,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 2,
     width: 250,
-    
   },
   taskWrapper: {
     flexDirection: 'row',
