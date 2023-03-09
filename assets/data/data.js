@@ -22,13 +22,7 @@ let data = [
       title: "go jogging",
       description: "jog  a 5k this week",
       completed: false
-    },
-    {
-      key: "5",
-      title: "sleep at a normal time this week",
-      description: "go to sleep before 4am",
-      completed: false
-      }
+    }
   ]
 
   export default data

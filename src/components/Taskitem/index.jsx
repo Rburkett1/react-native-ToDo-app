@@ -14,10 +14,8 @@ const Task = (props) => {
 
 const Taskitem = (props) => {
 
-let [checked, setChecked] = useState(false);
-
 const toggleCheckBox = () =>
-  setChecked(!checked);
+  props.setTaskCompleted(props.item.key);
   
     
   return (
@@ -25,13 +23,13 @@ const toggleCheckBox = () =>
 <View style={styles.taskitemWrapper}>
   <View>
     <Text style={{fontWeight: "bold"}}>Title:</Text>
-    <Task  text = {props.item} checked = {checked} /> 
+    <Task  text = {props.item.title} checked = {props.item.completed} /> 
     <Text style={{fontWeight: "bold"}}>Description:</Text>
-    <Text>put description here</Text>
+    <Task  text = {props.item.description} checked = {props.item.completed} /> 
   </View> 
   <View>          
     <CheckBox 
-    checked={checked} 
+    checked={props.item.completed} 
     onPress = {toggleCheckBox}
     iconType="material-community"
    checkedIcon="checkbox-outline"

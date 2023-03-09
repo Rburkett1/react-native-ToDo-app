@@ -1,61 +1,57 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView,  } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import Taskitem from './src/components/Taskitem';
 import data from './assets/data/data.js'
-//import { ScrollView } from 'react-native';
+
 
 
 export default function App() {
 
   //adding task usestate
-  let [task, setTask] = useState();
-  let [taskList, setTaskList] = useState([]);
+  let [taskTitle, setTaskTitle] = useState();
+  let [taskDescription, setTaskDescription] = useState();
+  let [taskList, setTaskList] = useState(data);
   let [checked, setChecked] = useState(false);
 
-//function for adding tasks
+  const setTaskCompleted = (key) => {
+    const newTaskList = taskList.map((item) => {
+      if (item.key === key) {
+        return {
+          ...item,
+          completed: !item.completed,
+        };
+      }
+      return item;
+    });
+    setTaskList(newTaskList)
+  }
+
+//function for adding new tasks
 function handleAddTasks(){
-  
-  const newTask = [...taskList, task]  
-  setTaskList(newTask)
-  setTask("");
+  const _newTask = {
+    key: Math.random().toString,
+    title: taskTitle,
+    description: taskDescription,
+    completed: false   
+  }
+  const newTasks = [...taskList,  _newTask] 
+
+  setTaskList(newTasks)
+  setTaskTitle("");
+  setTaskDescription("");
   //determing if input is blank or not
   //if(task = []){
   //  alert("Proceed you can't, Add task you must")
-  //}
-  
+  //}  
 }
 
 function resetTasks(){
-  setTaskList(taskList = []);
+  setTaskList([]);
  
 }
 
-const toggleCheckBox = () =>
-  setChecked(!checked);
 
-let renderItem = ({ item }) => {
-  return <View style={styles.taskitem}> 
-          <View style={styles.taskitemWrapper}>
-            <View>
-              <Text style={{fontWeight: "bold"}}>Task:</Text>
-              <Text >{item.title} </Text>
-              <Text style={{fontWeight: "bold"}}>Description:</Text>
-              <Text>{item.description}</Text>
-            </View> 
-            <View>          
-              <CheckBox 
-              checked={checked} 
-              onPress = {toggleCheckBox}
-              iconType="material-community"
-              checkedIcon="checkbox-outline"
-              uncheckedIcon={'checkbox-blank-outline'} 
-            />  
-            </View>
-          </View>
-        </View>
-          
-};
 
   return (
     
@@ -66,28 +62,28 @@ let renderItem = ({ item }) => {
       <View style={styles.inputfield}>
       <TextInput 
         style={styles.input} placeholder='add new task..' 
-        value={task} onChangeText = {text => setTask(text)}/> 
-        {/*
+        value={taskTitle} onChangeText = {text => setTaskTitle(text)}/>       
       <TextInput 
         style={styles.input} placeholder='add description..' 
-        /> 
-        */}
+        value = {taskDescription} onChangeText = {text => setTaskDescription(text)}
+        />         
       </View>      
       <View style={styles.button}>
         <Button color={'black'} title='Add Task' onPress={() => handleAddTasks() } />
         <Button color={'red'} title='Reset' onPress={() => resetTasks() } />
       </View>
-      {/* Scrollview  */}
-      <View>
-       {taskList.map((item, index) => {
-        return (
-         <Taskitem key = {index}
-         item = {item} />   
-          );
-        })}     
-      </View>       
-      <FlatList data={data} renderItem={renderItem}  />   
-      {/* Scrollview  */}
+       <ScrollView> 
+          <View>
+            {taskList.map((item, index) => {
+            return (
+            <Taskitem key = {index}
+            item = {item} 
+            setTaskCompleted = {setTaskCompleted}
+            />   
+            );
+            })}     
+        </View>            
+      </ScrollView>
     </View> 
   );
 }
@@ -124,10 +120,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 25,
     width: 350,
+    marginTop: 10,
+    marginBottom: 10
   },
   inputfield: {
     alignItems: 'center',
-     margin: 5
+     marginTop: 10,
+     marginBottom: 10
+     
   },
   button: {
     flexDirection: 'row',
