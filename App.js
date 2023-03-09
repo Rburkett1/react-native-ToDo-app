@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, TextInput, FlatList } from 'react-nativ
 import { CheckBox } from 'react-native-elements';
 import Taskitem from './src/components/Taskitem';
 import data from './assets/data/data.js'
-import { ScrollView } from 'react-native';
+//import { ScrollView } from 'react-native';
 
 
 export default function App() {
@@ -15,13 +15,14 @@ export default function App() {
 
 //function for adding tasks
 function handleAddTasks(){
+  
   const newTask = [...taskList, task]  
   setTaskList(newTask)
   setTask("");
   //determing if input is blank or not
-  if(task = []){
-    alert("Proceed you can't, Add task you must")
-  }
+  //if(task = []){
+  //  alert("Proceed you can't, Add task you must")
+  //}
   
 }
 
@@ -30,7 +31,6 @@ function resetTasks(){
  
 }
 
-
 const toggleCheckBox = () =>
   setChecked(!checked);
 
@@ -38,9 +38,9 @@ let renderItem = ({ item }) => {
   return <View style={styles.taskitem}> 
           <View style={styles.taskitemWrapper}>
             <View>
-              <Text>Title:</Text>
-              <Text>{item.title} </Text>
-              <Text>Description:</Text>
+              <Text style={{fontWeight: "bold"}}>Task:</Text>
+              <Text >{item.title} </Text>
+              <Text style={{fontWeight: "bold"}}>Description:</Text>
               <Text>{item.description}</Text>
             </View> 
             <View>          
@@ -48,7 +48,7 @@ let renderItem = ({ item }) => {
               checked={checked} 
               onPress = {toggleCheckBox}
               iconType="material-community"
-             checkedIcon="checkbox-outline"
+              checkedIcon="checkbox-outline"
               uncheckedIcon={'checkbox-blank-outline'} 
             />  
             </View>
@@ -58,12 +58,21 @@ let renderItem = ({ item }) => {
 };
 
   return (
+    
     <View style={styles.container}>
-      <Text style={styles.heading}>Todo List</Text>    
+      <Text style={styles.heading}>Todo List</Text>
+      <Text style={styles.username}>Username</Text>   
        {/* Start of ToDo code */}
+      <View style={styles.inputfield}>
       <TextInput 
         style={styles.input} placeholder='add new task..' 
-        value={task} onChangeText = {text => setTask(text)}/>      
+        value={task} onChangeText = {text => setTask(text)}/> 
+        {/*
+      <TextInput 
+        style={styles.input} placeholder='add description..' 
+        /> 
+        */}
+      </View>      
       <View style={styles.button}>
         <Button color={'black'} title='Add Task' onPress={() => handleAddTasks() } />
         <Button color={'red'} title='Reset' onPress={() => resetTasks() } />
@@ -73,12 +82,11 @@ let renderItem = ({ item }) => {
        {taskList.map((item, index) => {
         return (
          <Taskitem key = {index}
-         item = {item}/>   
+         item = {item} />   
           );
         })}     
       </View>       
-      <FlatList  data={data} renderItem={renderItem}/>  
-      {/* cant get checkmark next to data list */}  
+      <FlatList data={data} renderItem={renderItem}  />   
       {/* Scrollview  */}
     </View> 
   );
@@ -96,8 +104,17 @@ const styles = StyleSheet.create({
     fontSize: 32,
     margin: 9,
     fontFamily: 'American Typewriter',
-    flexDirection: 'row',
-    
+    justifyContent: 'space-between',
+    alignSelf:'flex-start',
+    paddingHorizontal: 15,
+  },
+  username:{
+    fontSize: 16,
+    margin: 9,
+    fontFamily: 'American Typewriter',
+    justifyContent: 'space-between',
+    alignSelf:'flex-start',
+    paddingHorizontal: 15,
   },
   input: {
     paddingVertical: 15,
@@ -105,8 +122,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightgray',
     borderColor: 'black',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 25,
     width: 350,
+  },
+  inputfield: {
+    alignItems: 'center',
+     margin: 5
   },
   button: {
     flexDirection: 'row',
@@ -114,9 +135,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   taskitem: {
-    backgroundColor: 'gray',
+    backgroundColor: 'lightgray',
     padding: 10,
-    borderWidth: 1,
+   // borderWidth: 1,
     borderRadius: 8,
     width: 350,
     margin: 3,
@@ -140,6 +161,10 @@ const styles = StyleSheet.create({
     
      
   },
- 
+  crossedout:{
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid',
+    //color: 'red'
+  }
 
 });
